@@ -41,27 +41,10 @@ class SendSMS implements ShouldQueue
      */
     public function handle(SendSMSEvent $event)
     {
-        var_dump("Event fired");
-
         $data = $event->getData();
-        var_dump($data);
 
-        // 挑戰 1：有沒有什麼寫法是可以換簡訊平台卻不需要修改已經寫好的 Production Code？
-        // 挑戰 2：在修改最少的情況下，讓這個 Mitake_SMS 類別可以被 Mock 取代，進而測試 handle 方法。
-
-        // Solution 2: 利用 Type Hinting 做 Dependency Injection
-        $this->courier->sendTextMessage([
-            'to'      => $data['phone'],
-            'message' => $data['message'],
-        ]);
-
-        // 挑戰 3：如何在不觸及資料庫操作的前提下，寫測試驗證 handle 方法內的處理邏輯？
-        // Solution 1:
         $user = $this->users->find($data['user']['id']);
-        $user->messages()->create([
-            'to'      => $data['phone'],
-            'message' => $data['message'],
-        ]);
 
+        $user->sendSms($this->courier, $data['phone'], $data['message']);
     }
 }
