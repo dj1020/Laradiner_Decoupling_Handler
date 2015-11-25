@@ -3,6 +3,7 @@
 use App\Events\SendSMSEvent;
 use App\Handlers\Events\SendSMS;
 use App\Sms\Mitake_SMS;
+use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -45,7 +46,20 @@ class SendSMSTest extends TestCase
         ]);
         $fakeEvent->shouldReceive('getCourier')->once()->andReturn($fakeCourier);
 
-        $handler = new SendSMS();
+        // 挑戰 3：如何在不觸及資料庫操作的前提下，寫測試驗證 handle 方法內的處理邏輯？
+        // Solution 1:
+        $users = \Mockery::mock(User::class);
+        $fakeUser = \Mockery::mock(User::class);
+        $relation = \Mockery::mock('stdClass');
+
+        $users->shouldReceive('find')->once()->andReturn($fakeUser);
+        $fakeUser->shouldReceive('messages')->once()->andReturn($relation);
+        $relation->shouldReceive('create')->once()->with([
+            'to'      => '0988123456',
+            'message' => 'my test message here',
+        ]);
+
+        $handler = new SendSMS($users);
 
         // Act & Assert
         $handler->handle($fakeEvent);
