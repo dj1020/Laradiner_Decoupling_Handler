@@ -7,7 +7,7 @@
 namespace App\Sms;
 
 
-class Mitake_SMS
+class Mitake_SMS implements SmsCourierInterface
 {
 
     public function sendTextMessage($param)
