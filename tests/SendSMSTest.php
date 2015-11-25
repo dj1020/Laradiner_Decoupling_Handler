@@ -1,9 +1,6 @@
 <?php
 
-use App\Events\SendSMSEvent;
-use App\Handlers\Events\SendSMS;
 use App\Sms\SmsCourierInterface;
-use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

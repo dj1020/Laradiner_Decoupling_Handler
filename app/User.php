@@ -53,14 +53,8 @@ class User extends Model implements AuthenticatableContract,
     //             就不會被 event 綁住，拿到 User 就可以傳簡訊。
     public function sendSms(SmsCourierInterface $courier, $to, $message)
     {
-        $courier->sendTextMessage([
-            'to'      => $to,
-            'message' => $message
-        ]);
+        $courier->sendTextMessage(compact('to', 'message'));
 
-        $this->sms()->create([
-            'to'      => $to,
-            'message' => $message
-        ]);
+        $this->sms()->create(compact('to', 'message'));
     }
 }

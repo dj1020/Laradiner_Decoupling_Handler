@@ -32,6 +32,6 @@ class SmsController extends Controller
         $data = $request->except("_token");
         $data['user']['id'] = 1;
 
-        event(new SendSMSEvent($data, new Mitake_SMS($this->apiKey)));
+        event(new SendSMSEvent($data));
     }
 }
