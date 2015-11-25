@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'SmsController@create');
+Route::post('/sms', 'SmsController@store');
