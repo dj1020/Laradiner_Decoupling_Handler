@@ -3,6 +3,7 @@
 namespace App\Handlers\Events;
 
 use App\Events\SendSMSEvent;
+use App\Sms\SmsCourierInterface;
 use App\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,13 +13,24 @@ class SendSMS implements ShouldQueue
     use InteractsWithQueue;
 
     /**
+     * @var User
+     */
+    private $users;
+
+    /**
+     * @var SmsCourierInterface
+     */
+    private $courier;
+
+    /**
      * Create the event handler.
      *
      * @return void
      */
-    public function __construct(User $users)
+    public function __construct(User $users, SmsCourierInterface $courier)
     {
         $this->users = $users;
+        $this->courier = $courier;
     }
 
     /**
@@ -36,9 +48,9 @@ class SendSMS implements ShouldQueue
 
         // 挑戰 1：有沒有什麼寫法是可以換簡訊平台卻不需要修改已經寫好的 Production Code？
         // 挑戰 2：在修改最少的情況下，讓這個 Mitake_SMS 類別可以被 Mock 取代，進而測試 handle 方法。
-        // Solution 1:
-        $courier = $event->getCourier();
-        $courier->sendTextMessage([
+
+        // Solution 2: 利用 Type Hinting 做 Dependency Injection
+        $this->courier->sendTextMessage([
             'to'      => $data['phone'],
             'message' => $data['message'],
         ]);

@@ -41,7 +41,6 @@ class SendSMSTest extends TestCase
         $fakeCourier = \Mockery::mock(SmsCourierInterface::class);
 
         $fakeEvent->shouldReceive('getData')->once()->andReturn($data);
-        $fakeEvent->shouldReceive('getCourier')->once()->andReturn($fakeCourier);
         $fakeCourier->shouldReceive('sendTextMessage')->once()->with([
             'to'      => $data['phone'],
             'message' => $data['message']
@@ -61,6 +60,6 @@ class SendSMSTest extends TestCase
         ]);
 
         // Act & Assert
-        (new SendSMS($users))->handle($fakeEvent);
+        (new SendSMS($users, $fakeCourier))->handle($fakeEvent);
     }
 }
