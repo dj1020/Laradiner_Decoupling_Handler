@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\SendSMSEvent;
 use App\Sms\Mitake_SMS;
 use App\Sms\SmsCourierInterface;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -26,7 +27,7 @@ class SmsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -37,5 +38,11 @@ class SmsController extends Controller
         App::instance(SmsCourierInterface::class, new Mitake_SMS($this->apiKey));
 
         event(new SendSMSEvent($data));
+
+        $user = User::find($data['user']['id']);
+
+        echo "<pre>";
+
+        return json_encode($user->sms()->get(), JSON_PRETTY_PRINT);
     }
 }
