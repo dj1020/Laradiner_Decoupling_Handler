@@ -3,7 +3,7 @@
 namespace App\Handlers\Events;
 
 use App\Events\SendSMSEvent;
-use App\Sms\Mitake_SMS;
+use App\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -16,9 +16,9 @@ class SendSMS implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $users)
     {
-        //
+        $this->users = $users;
     }
 
     /**
@@ -43,14 +43,13 @@ class SendSMS implements ShouldQueue
             'message' => $data['message'],
         ]);
 
-        // 這裡和 Eloquent 的資料庫相依性太高，造成另一個測試上的困難，
-        // 無法再不觸及資料庫的情況下來做測試，違背單元測試的原則。
-        $user = \App\User::find($data['user']['id']);
+        // 挑戰 3：如何在不觸及資料庫操作的前提下，寫測試驗證 handle 方法內的處理邏輯？
+        // Solution 1:
+        $user = $this->users->find($data['user']['id']);
         $user->messages()->create([
             'to'      => $data['phone'],
             'message' => $data['message'],
         ]);
 
-        // 挑戰 3：如何在不觸及資料庫操作的前提下，寫測試驗證 handle 方法內的處理邏輯？
     }
 }
