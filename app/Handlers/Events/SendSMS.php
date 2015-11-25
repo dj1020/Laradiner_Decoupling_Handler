@@ -29,6 +29,19 @@ class SendSMS implements ShouldQueue
     public function handle(SendSMSEvent $event)
     {
         var_dump("Event fired");
-        var_dump($event->getData());
+
+        $data = $event->getData();
+
+        $mitake = new Mitake_SMS($this->apiKey);
+        $mitake->sendTextMessage([
+            'to'      => $data['phone'],
+            'message' => $data['message'],
+        ]);
+
+        $user = \App\User::find($data['user']['id']);
+        $user->messages()->create([
+            'to'      => $data['phone'],
+            'message' => $data['message'],
+        ]);
     }
 }
