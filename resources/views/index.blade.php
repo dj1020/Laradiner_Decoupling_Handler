@@ -25,6 +25,7 @@
 <div class="container col-md-4 col-md-offset-4">
 
     <form class="form-sms" action="/sms" method="POST">
+        {{ csrf_field() }}
         <h2 class="form-sms-heading">Send SMS</h2>
         <label for="inputPhone" class="sr-only">Phone Number</label>
         <input type="text" id="inputPhone" class="form-control" name="phone"
