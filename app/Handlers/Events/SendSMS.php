@@ -27,6 +27,12 @@ class SendSMS implements ShouldQueue
      *
      * @return void
      */
+
+    // 測試不是綠燈嗎？怎麼反而整個壞掉不能傳簡訊了
+    // 這錯誤是什麼鬼：
+    //     BindingResolutionException in Container.php line 745:
+    //     Target [App\Sms\SmsCourierInterface] is not instantiable.
+    //
     public function __construct(User $users, SmsCourierInterface $courier)
     {
         $this->users = $users;
