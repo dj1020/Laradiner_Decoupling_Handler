@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendSMSEvent;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -27,6 +28,6 @@ class SmsController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        event(new SendSMSEvent());
     }
 }
