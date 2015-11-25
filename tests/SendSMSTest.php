@@ -2,7 +2,7 @@
 
 use App\Events\SendSMSEvent;
 use App\Handlers\Events\SendSMS;
-use App\Sms\Mitake_SMS;
+use App\Sms\SmsCourierInterface;
 use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -38,7 +38,7 @@ class SendSMSTest extends TestCase
         // 挑戰 2：在修改最少的情況下，讓這個 Mitake_SMS 類別可以被 Mock 取代，進而測試 handle 方法。
         // Solution 1:
         $fakeEvent = \Mockery::mock(SendSMSEvent::class);
-        $fakeCourier = \Mockery::mock(Mitake_SMS::class);
+        $fakeCourier = \Mockery::mock(SmsCourierInterface::class);
 
         $fakeEvent->shouldReceive('getData')->once()->andReturn($data);
         $fakeEvent->shouldReceive('getCourier')->once()->andReturn($fakeCourier);
