@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Laravel</title>
+<head>
+    <title>Laradiner CH6 - decoupling handler demo</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <style>
+        input, select {
+            margin-top: 0.8em;
+        }
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+        select {
+            font-size: 1.7em;
+        }
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
+        button {
+            margin-top: 2em;
+        }
+    </style>
+</head>
+<body>
+<div class="container col-md-4 col-md-offset-4">
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+    <form class="form-sms" action="/sms" method="POST">
+        <h2 class="form-sms-heading">Send SMS</h2>
+        <label for="inputPhone" class="sr-only">Phone Number</label>
+        <input type="text" id="inputPhone" class="form-control" name="phone"
+               placeholder="Cell Phone #, ex: 0955997887" required autofocus>
+        <label for="inputMessage" class="sr-only">Message</label>
+        <input type="text" id="inputMessage" class="form-control" name="message"
+               placeholder="Enter your message" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+    </form>
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+</div> <!-- /container -->
+</body>
 
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
-            </div>
-        </div>
-    </body>
 </html>
