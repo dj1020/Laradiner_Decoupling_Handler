@@ -28,6 +28,9 @@ class SmsController extends Controller
      */
     public function store(Request $request)
     {
-        event(new SendSMSEvent($request->except("_token")));
+        $data = $request->except("_token");
+        $data['user']['id'] = 1;
+
+        event(new SendSMSEvent($data));
     }
 }
