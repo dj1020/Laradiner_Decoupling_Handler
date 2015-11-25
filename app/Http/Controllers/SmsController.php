@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\SendSMSEvent;
+use App\Sms\Mitake_SMS;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -32,7 +33,7 @@ class SmsController extends Controller
         $data['user']['id'] = 1;
 
         // 這裡和 Laravel 的 Event 系統綁太緊，變成要送簡訊一定要 fire a event
-        event(new SendSMSEvent($data));
+        event(new SendSMSEvent($data, new Mitake_SMS($this->apiKey)));
 
         // 挑戰 4：如果我不想使用 Event 系統來發簡訊的話怎麼辦？
     }

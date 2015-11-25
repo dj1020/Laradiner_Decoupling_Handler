@@ -13,15 +13,17 @@ class SendSMSEvent extends Event
      * @var
      */
     private $data;
+    private $courier;
 
     /**
      * Create a new event instance.
      *
      * @param $data
      */
-    public function __construct($data)
+    public function __construct($data, $courier)
     {
         $this->data = $data;
+        $this->courier = $courier;
     }
 
     /**
@@ -30,6 +32,11 @@ class SendSMSEvent extends Event
     public function getData()
     {
         return $this->data;
+    }
+
+    public function getCourier()
+    {
+        return $this->courier;
     }
 
     /**
