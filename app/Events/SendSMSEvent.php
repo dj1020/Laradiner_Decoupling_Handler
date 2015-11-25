@@ -9,15 +9,27 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class SendSMSEvent extends Event
 {
     use SerializesModels;
+    /**
+     * @var
+     */
+    private $data;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param $data
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**

@@ -29,6 +29,6 @@ class SendSMS implements ShouldQueue
     public function handle(SendSMSEvent $event)
     {
         var_dump("Event fired");
-        var_dump($event);
+        var_dump($event->getData());
     }
 }

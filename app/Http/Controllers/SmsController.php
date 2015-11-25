@@ -28,6 +28,6 @@ class SmsController extends Controller
      */
     public function store(Request $request)
     {
-        event(new SendSMSEvent());
+        event(new SendSMSEvent($request->all()));
     }
 }
